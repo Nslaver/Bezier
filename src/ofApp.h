@@ -2,9 +2,10 @@
 
 #include "ofMain.h"
 #include "ofRay.h"
+#include "Human.h"
 
 #define kBezierPoints 4
-#define floorLimits 500.0
+#define floorLimits 300.0
 #define bezierLineSubDiv 100
 #define bezierMovSubDiv 100
 
@@ -42,6 +43,8 @@ class ofApp : public ofBaseApp{
 		int nearestIndex;
 
 		ofSpherePrimitive daWorld;
+
+		Human myHuman;
 
 		ofLight pointLight;
 		ofLight pointLight2;

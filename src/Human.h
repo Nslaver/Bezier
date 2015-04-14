@@ -24,5 +24,8 @@ public:
     void update();
     
     void draw();
+
+	void setScale(GLfloat newScale);
+	void initPositions(GLfloat newScale);
     
 };

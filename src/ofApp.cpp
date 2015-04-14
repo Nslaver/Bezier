@@ -16,11 +16,20 @@ void ofApp::setup(){
 	floor.setPosition(ofVec3f(0,0,0));
 	floor.setOrientation(ofVec3f(90,0,0));
 
+	// Setup Human
+
+	myHuman.setup();
+	myHuman.setScale(1);
+
+
 	// Setup da World
 
 	daWorld.set(floorLimits*4,10,OF_PRIMITIVE_TRIANGLE_STRIP);
 	daWorld.setPosition(ofVec3f(0,0,0));
 
+
+	
+	
 	// Light
 
 	ofSetSmoothLighting(true);
@@ -38,8 +47,6 @@ void ofApp::setup(){
 
 
 	// Simple pick variables
-
-
 
 	nearestDistance = 0;
 	nearestIndex = 0;
@@ -156,13 +163,15 @@ void ofApp::draw(){
 
 	//Bezier line with evaluator
 	ofFill();
-        ofSetColor(pointLight.getDiffuseColor());
-        pointLight.draw();
-        ofSetColor(pointLight2.getDiffuseColor());
-        pointLight2.draw();
-        ofSetColor(pointLight3.getDiffuseColor());
-        pointLight3.draw();
+    ofSetColor(pointLight.getDiffuseColor());
+    //pointLight.draw();
+    ofSetColor(pointLight2.getDiffuseColor());
+    //pointLight2.draw();
+    ofSetColor(pointLight3.getDiffuseColor());
+    //pointLight3.draw();
 
+
+	ofSetColor(ofColor::indianRed);
 	drawBezierLine();	
 
 	GLfloat b2 = GLfloat(GLfloat(currentStep)/bezierMovSubDiv);
@@ -176,21 +185,21 @@ void ofApp::draw(){
   
 	ofSetColor(ofColor::mediumPurple);
 	actorNode.draw();
-		
+	
+	ofSetColor(ofColor::yellow);
+	myHuman.draw();
 		
 	
 	//daWorld
 
-	ofSetColor(0, 15, 250);
-
-	daWorld.draw();
+	//ofSetColor(0, 15, 250);
+	//daWorld.draw();
 
 	//Floor
 
 	
-	ofSetColor(0, 100, 25);
-
-	floor.draw();
+	//ofSetColor(0, 100, 25);
+	//floor.draw();
 
     /* Quad Floor
 	glBegin(GL_QUADS);	
@@ -296,7 +305,6 @@ void ofApp::drawBezierLine(){
 	points and draw a line between each point. If the points are close enough, it
 	will appear as a curved line. 20 points are plenty, and since the variable goes
 	from 1.0 to 0.0 we must change it by 1/20 = 0.05 each time */
-	ofSetColor(0, 255, 0);
 	glBegin(GL_LINE_STRIP);
 	for(int i = 0; i <= bezierLineSubDiv; i++)
 	{
@@ -346,7 +354,6 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	ofLog() << "Intersection Point(in world space) = " << button;
 	ofVec3f screenToWorld = cam.screenToWorld(ofVec3f(x,y,0.0));
     ofRay ray(cam.getPosition(),screenToWorld - cam.getPosition());
     bool intersection = false;
