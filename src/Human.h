@@ -26,6 +26,8 @@ public:
     void draw();
 
 	void setScale(GLfloat newScale);
-	void initPositions(GLfloat newScale);
+	void setParts(GLfloat newScale);
+
+	void setPosition(ofVec3f newPosition);
     
 };

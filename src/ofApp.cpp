@@ -19,7 +19,7 @@ void ofApp::setup(){
 	// Setup Human
 
 	myHuman.setup();
-	myHuman.setScale(1);
+	myHuman.setScale(50);
 
 
 	// Setup da World
@@ -139,6 +139,28 @@ void ofApp::update(){
 	}
 
 	actorNode.setPosition(bzNodes[0].getGlobalPosition());
+
+	GLfloat b2 = cos(ofGetElapsedTimef()*.5);
+	GLfloat a1 = GLfloat(1.0-b2);
+		
+	//Draw actor node
+	actorNode.setPosition(ofVec3f(
+		bzNodes[0].getX()*a1*a1*a1 + bzNodes[1].getX()*3*a1*a1*b2 + bzNodes[2].getX()*3*a1*b2*b2 + bzNodes[3].getX()*b2*b2*b2,
+		bzNodes[0].getY()*a1*a1*a1 + bzNodes[1].getY()*3*a1*a1*b2 + bzNodes[2].getY()*3*a1*b2*b2 + bzNodes[3].getY()*b2*b2*b2,
+		bzNodes[0].getZ()*a1*a1*a1 + bzNodes[1].getZ()*3*a1*a1*b2 + bzNodes[2].getZ()*3*a1*b2*b2 + bzNodes[3].getZ()*b2*b2*b2));
+
+	myHuman.setPosition(actorNode.getGlobalPosition());
+
+	//Update current steo and actor direction
+	if(int(ofGetElapsedTimef())% 3 == 0 ){
+		currentStep += actorDirection;
+		
+		if(0>currentStep || currentStep>bezierMovSubDiv){
+			actorDirection*=-1;
+		}
+	}
+	
+	
 }
 
 //--------------------------------------------------------------
@@ -174,14 +196,7 @@ void ofApp::draw(){
 	ofSetColor(ofColor::indianRed);
 	drawBezierLine();	
 
-	GLfloat b2 = GLfloat(GLfloat(currentStep)/bezierMovSubDiv);
-	GLfloat a1 = GLfloat(1.0-b2);
-		
-	//Draw actor node
-	actorNode.setPosition(ofVec3f(
-		bzNodes[0].getX()*a1*a1*a1 + bzNodes[1].getX()*3*a1*a1*b2 + bzNodes[2].getX()*3*a1*b2*b2 + bzNodes[3].getX()*b2*b2*b2,
-		bzNodes[0].getY()*a1*a1*a1 + bzNodes[1].getY()*3*a1*a1*b2 + bzNodes[2].getY()*3*a1*b2*b2 + bzNodes[3].getY()*b2*b2*b2,
-		bzNodes[0].getZ()*a1*a1*a1 + bzNodes[1].getZ()*3*a1*a1*b2 + bzNodes[2].getZ()*3*a1*b2*b2 + bzNodes[3].getZ()*b2*b2*b2));
+	
   
 	ofSetColor(ofColor::mediumPurple);
 	actorNode.draw();
@@ -270,10 +285,7 @@ void ofApp::draw(){
 	ofDrawBitmapString(s2, ofPoint(20, 40));
 	glEnable(GL_CULL_FACE);*/
 
-	currentStep += actorDirection;
-	if(0>currentStep || currentStep>bezierMovSubDiv){
-		actorDirection*=-1;
-	}
+	
 
 	//MSG
 
@@ -300,11 +312,11 @@ void ofApp::drawBezierLine(){
 	GLfloat a = 1.0;
 	GLfloat b = 1.0 - a;
 
-
 	/* We will not actually draw a curve, but we will divide the curve into small
 	points and draw a line between each point. If the points are close enough, it
 	will appear as a curved line. 20 points are plenty, and since the variable goes
 	from 1.0 to 0.0 we must change it by 1/20 = 0.05 each time */
+
 	glBegin(GL_LINE_STRIP);
 	for(int i = 0; i <= bezierLineSubDiv; i++)
 	{
