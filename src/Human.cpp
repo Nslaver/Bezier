@@ -4,7 +4,7 @@
 void Human::setup(){
 	setScale(1.0);
 			
-	torse.set(1);
+	torse.set(0.75,1,1);
 
 	head.set(1,36,OF_PRIMITIVE_TRIANGLE_STRIP);
 
@@ -76,6 +76,9 @@ void Human::update(){
 
 }
 
+void Human::lookAt(ofVec3f newPosition){
+	torse.lookAt(newPosition);
+}
 
 void Human::setPosition(ofVec3f newPosition){
 	torse.setPosition(newPosition.x, newPosition.y, newPosition.z);

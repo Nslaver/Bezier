@@ -139,17 +139,22 @@ void ofApp::update(){
 	}
 
 	actorNode.setPosition(bzNodes[0].getGlobalPosition());
-
-	GLfloat b2 = cos(ofGetElapsedTimef()*.5);
+	
+	GLfloat b2 = (cos(ofGetElapsedTimef()*.5) + 1) / 2;
 	GLfloat a1 = GLfloat(1.0-b2);
 		
 	//Draw actor node
-	actorNode.setPosition(ofVec3f(
+	ofVec3f lastPosition = actorNode.getPosition();
+
+	ofVec3f nextPosition = ofVec3f(
 		bzNodes[0].getX()*a1*a1*a1 + bzNodes[1].getX()*3*a1*a1*b2 + bzNodes[2].getX()*3*a1*b2*b2 + bzNodes[3].getX()*b2*b2*b2,
 		bzNodes[0].getY()*a1*a1*a1 + bzNodes[1].getY()*3*a1*a1*b2 + bzNodes[2].getY()*3*a1*b2*b2 + bzNodes[3].getY()*b2*b2*b2,
-		bzNodes[0].getZ()*a1*a1*a1 + bzNodes[1].getZ()*3*a1*a1*b2 + bzNodes[2].getZ()*3*a1*b2*b2 + bzNodes[3].getZ()*b2*b2*b2));
+		bzNodes[0].getZ()*a1*a1*a1 + bzNodes[1].getZ()*3*a1*a1*b2 + bzNodes[2].getZ()*3*a1*b2*b2 + bzNodes[3].getZ()*b2*b2*b2);
 
+	actorNode.setPosition(nextPosition);
+	myHuman.lookAt(nextPosition);
 	myHuman.setPosition(actorNode.getGlobalPosition());
+	
 
 	//Update current steo and actor direction
 	if(int(ofGetElapsedTimef())% 3 == 0 ){

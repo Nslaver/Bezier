@@ -29,5 +29,7 @@ public:
 	void setParts(GLfloat newScale);
 
 	void setPosition(ofVec3f newPosition);
+
+	void lookAt(ofVec3f newPosition);
     
 };
