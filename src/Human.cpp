@@ -21,34 +21,34 @@ void Human::setup(){
 	rLowLeg.set(1);	
 
 
-	head.setScale(0.3, 0.3, 0.3);
+	head.setScale(0.3, 0.3, 1.5);
 	
-	rUpArm.setScale(0.65, 0.25, 0.25);
-	rLowArm.setScale(0.65, 0.25, 0.25);
+	rUpArm.setScale(0.65, 0.25, 1);
+	rLowArm.setScale(0.65, 0.25, 1);
 
-	lUpArm.setScale(0.65, 0.25, 0.25);
-	lLowArm.setScale(0.65, 0.25, 0.25);
+	lUpArm.setScale(0.65, 0.25, 1);
+	lLowArm.setScale(0.65, 0.25, 1);
 	
-	rUpLeg.setScale(0.25, 0.75, 0.25);
-	rLowLeg.setScale(0.25, 0.75, 0.25);
+	rUpLeg.setScale(0.25, 0.75, 1);
+	rLowLeg.setScale(0.25, 0.75, 1);
 
-	lUpLeg.setScale(0.25, 0.75, 0.25);
-	lLowLeg.setScale(0.25, 0.75, 0.25);
+	lUpLeg.setScale(0.25, 0.75, 1);
+	lLowLeg.setScale(0.25, 0.75, 1);
 
 	
-	head.setPosition(0.0, 1.0, 0);
+	head.setPosition(0.0, 0.8, 0);
 	
-	rUpArm.setPosition(0.75, 0.55, 0.0);
-	rLowArm.setPosition(1.5, 0.55, 0.0);
+	rUpArm.setPosition(0.5, 0.35, 0.0);
+	rLowArm.setPosition(1.0, 0.35, 0.0);
 
-	lUpArm.setPosition(-0.75, 0.55, 0.0);
-	lLowArm.setPosition(-1.5, 0.55, 0.0);
+	lUpArm.setPosition(-0.5, 0.35, 0.0);
+	lLowArm.setPosition(-1.0, 0.35, 0.0);
 
-	rUpLeg.setPosition(0.55, -0.75, 0.0);
-	rLowLeg.setPosition(0.55, -1.50, 0.0);
+	rUpLeg.setPosition(0.25, -0.75, 0.0);
+	rLowLeg.setPosition(0.25, -1.50, 0.0);
 		
-	lUpLeg.setPosition(-0.55, -0.75, 0.0);
-	lLowLeg.setPosition(-0.55, -1.50, 0.0);
+	lUpLeg.setPosition(-0.25, -0.75, 0.0);
+	lLowLeg.setPosition(-0.25, -1.50, 0.0);
 
 	head.setParent(torse);
 	lUpArm.setParent(torse);
@@ -73,7 +73,6 @@ void Human::setParts(GLfloat newPosition){
 }
 
 void Human::update(){
-
 }
 
 void Human::lookAt(ofVec3f newPosition){

@@ -19,7 +19,7 @@ void ofApp::setup(){
 	// Setup Human
 
 	myHuman.setup();
-	myHuman.setScale(50);
+	myHuman.setScale(humanScale);
 
 
 	// Setup da World
@@ -81,7 +81,8 @@ void ofApp::setup(){
 			ctrlpoints[i][0]=bzNodes[i].getX();
 			ctrlpoints[i][1]=bzNodes[i].getY();
 			ctrlpoints[i][2]=bzNodes[i].getZ();
-		}
+			bzPoints[i].set(3,10);
+	}
 
 	// Translation with opengl
 	//glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, &ctrlpoints[0][0]);
@@ -140,7 +141,7 @@ void ofApp::update(){
 
 	actorNode.setPosition(bzNodes[0].getGlobalPosition());
 	
-	GLfloat b2 = (cos(ofGetElapsedTimef()*.5) + 1) / 2;
+	GLfloat b2 = (sin(ofGetElapsedTimef()*.5) + 1) / 2;
 	GLfloat a1 = GLfloat(1.0-b2);
 		
 	//Draw actor node
@@ -151,20 +152,35 @@ void ofApp::update(){
 		bzNodes[0].getY()*a1*a1*a1 + bzNodes[1].getY()*3*a1*a1*b2 + bzNodes[2].getY()*3*a1*b2*b2 + bzNodes[3].getY()*b2*b2*b2,
 		bzNodes[0].getZ()*a1*a1*a1 + bzNodes[1].getZ()*3*a1*a1*b2 + bzNodes[2].getZ()*3*a1*b2*b2 + bzNodes[3].getZ()*b2*b2*b2);
 
+	nextPosition.y = nextPosition.y + humanScale*2.25;
 	actorNode.setPosition(nextPosition);
 	myHuman.lookAt(nextPosition);
-	myHuman.setPosition(actorNode.getGlobalPosition());
-	
+	myHuman.setPosition(nextPosition);
+	myHuman.update();
 
-	//Update current steo and actor direction
+	/*Update current steo and actor direction
 	if(int(ofGetElapsedTimef())% 3 == 0 ){
 		currentStep += actorDirection;
 		
 		if(0>currentStep || currentStep>bezierMovSubDiv){
 			actorDirection*=-1;
 		}
+	}*/
+	
+	//Calculate and edit current bezir point
+	ofVec2f mouse(mouseX, mouseY);
+	for(int i = 0; i < kBezierPoints; i++) {
+		ofVec3f cur = cam.worldToScreen(bzNodes[i].getGlobalPosition());
+		bzPoints[i].setGlobalPosition(bzNodes[i].getGlobalPosition());
+		float distance = cur.distance(mouse);
+		if(i == 0 || distance < nearestDistance) {
+			nearestDistance = distance;
+			nearestVertex = cur;
+			nearestIndex = i;
+		}
 	}
 	
+
 	
 }
 
@@ -178,15 +194,14 @@ void ofApp::draw(){
     pointLight2.enable();
     pointLight3.enable();
 
-	
 	cam.lookAt(camObjective);
 
 	//Cam setup
 	cam.begin();
 	//cam.draw();
-	ofSetColor(0, 255, 0);
-	camObjective.draw();
-	ofDrawAxis(floorLimits);
+	//ofSetColor(0, 255, 0);
+	//camObjective.draw();
+	//ofDrawAxis(floorLimits);
 
 	//Bezier line with evaluator
 	ofFill();
@@ -198,28 +213,26 @@ void ofApp::draw(){
     //pointLight3.draw();
 
 
-	ofSetColor(ofColor::indianRed);
-	drawBezierLine();	
-
-	
+	ofSetColor(ofColor::red);
+	drawBezierLine();		
   
-	ofSetColor(ofColor::mediumPurple);
-	actorNode.draw();
+	//ofSetColor(ofColor::mediumPurple);
+	//actorNode.draw();
 	
-	ofSetColor(ofColor::yellow);
+	ofSetColor(ofColor::blueSteel);
 	myHuman.draw();
 		
 	
 	//daWorld
 
-	//ofSetColor(0, 15, 250);
-	//daWorld.draw();
+	ofSetColor(0, 15, 250);
+	daWorld.draw();
 
 	//Floor
 
 	
-	//ofSetColor(0, 100, 25);
-	//floor.draw();
+	ofSetColor(0, 100, 25);
+	floor.draw();
 
     /* Quad Floor
 	glBegin(GL_QUADS);	
@@ -234,7 +247,7 @@ void ofApp::draw(){
 	// draw bzNodes
 	for(int i=0; i<kBezierPoints; i++) {
 		ofSetColor(255, 128, 255);
-		bzNodes[i].draw();
+		bzPoints[i].draw();
 		if(i == 0 || i == 2){
 			ofSetColor(255, 255, 0);
 			ofVec3f v1 = bzNodes[i].getGlobalPosition();
@@ -249,19 +262,9 @@ void ofApp::draw(){
     //glPopMatrix();
 	cam.end();
 
-	//Calculate and edit current bezir point
-	ofVec2f mouse(mouseX, mouseY);
-	for(int i = 0; i < kBezierPoints; i++) {
-		ofVec3f cur = cam.worldToScreen(bzNodes[i].getGlobalPosition());
-		float distance = cur.distance(mouse);
-		if(i == 0 || distance < nearestDistance) {
-			nearestDistance = distance;
-			nearestVertex = cur;
-			nearestIndex = i;
-		}
-	}
 	
 	ofSetColor(ofColor::gray);
+	ofVec2f mouse(mouseX, mouseY);
 	ofLine(nearestVertex, mouse);
 	
 	ofNoFill();

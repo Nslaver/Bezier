@@ -8,6 +8,7 @@
 #define floorLimits 300.0
 #define bezierLineSubDiv 100
 #define bezierMovSubDiv 100
+#define humanScale 30
 
 class ofApp : public ofBaseApp{
 
