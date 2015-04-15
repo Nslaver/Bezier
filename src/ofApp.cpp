@@ -320,11 +320,6 @@ void ofApp::drawBezierLine(){
 	GLfloat a = 1.0;
 	GLfloat b = 1.0 - a;
 
-	/* We will not actually draw a curve, but we will divide the curve into small
-	points and draw a line between each point. If the points are close enough, it
-	will appear as a curved line. 20 points are plenty, and since the variable goes
-	from 1.0 to 0.0 we must change it by 1/20 = 0.05 each time */
-
 	glBegin(GL_LINE_STRIP);
 	for(int i = 0; i <= bezierLineSubDiv; i++)
 	{
@@ -333,7 +328,7 @@ void ofApp::drawBezierLine(){
 		Y = bzNodes[0].getY()*a*a*a + bzNodes[1].getY()*3*a*a*b + bzNodes[2].getY()*3*a*b*b + bzNodes[3].getY()*b*b*b;
 		Z = bzNodes[0].getZ()*a*a*a + bzNodes[1].getZ()*3*a*a*b + bzNodes[2].getZ()*3*a*b*b + bzNodes[3].getZ()*b*b*b;
   
-		// Draw the line from point to point (assuming OGL is set up properly)
+		// Draw the line from point to point
 		glVertex3d(X, Y, Z);
 
 		// Change the variable
